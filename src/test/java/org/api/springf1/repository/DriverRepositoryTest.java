@@ -1,6 +1,5 @@
 package org.api.springf1.repository;
 
-import org.api.springf1.dto.DriverDTO;
 import org.api.springf1.model.Driver;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -14,7 +13,6 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.when;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2)
@@ -48,6 +46,7 @@ class DriverRepositoryTest {
         List<Driver> drivers = driverRepository.findAll();
 
         assertThat(drivers).isNotNull();
+        assertThat(drivers.size()).isGreaterThan(1);
         assertEquals(drivers.size(), 2);
     }
 
@@ -64,6 +63,7 @@ class DriverRepositoryTest {
         actualizado.setForename("Lewis");
         driverRepository.save(actualizado);
 
+        assertNotNull(driverRepository.findByCodeIgnoreCase("AAA"));
         assertEquals(driverRepository.findByCodeIgnoreCase("AAA").get().getForename(), "Lewis");
     }
 
